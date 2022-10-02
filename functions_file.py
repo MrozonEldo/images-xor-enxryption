@@ -28,7 +28,7 @@ def operacja_xor(bit_i,bit_k):
         return '0'
 
 
-def zaszyfruj(sciezka, key):
+def szyfruj(sciezka, key):
     image = Image.open(sciezka)
     width, height = image.size
     mapa_pikseli = image.load()
@@ -50,28 +50,4 @@ def zaszyfruj(sciezka, key):
             mapa_pikseli[i, j] = (int(new_color[0:8], 2), int(new_color[8:16], 2), int(new_color[16:24], 2))
 
     image.show()
-    image.save("C:\\Users\\alanm\\Desktop\\katalog\\imageEncode\\zakodowany.png")
-
-def odszyfruj(sciezka, key):
-    image = Image.open(sciezka)
-    width, height = image.size
-    mapa_pikseli = image.load()
-    glowny_klucz = roz_klucz(key, width, height)
-    position = 0
-
-    for i in range(width):
-        for j in range(height):
-            r, g, b = image.getpixel((i, j))
-            color = bin(r)[2:].zfill(8) + bin(g)[2:].zfill(8) + bin(b)[2:].zfill(8)
-
-            klucz24 = glowny_klucz[position:position + 24]
-            position += 24
-
-            new_color = ""
-            for k in range(24):
-                new_color += operacja_xor(color[k], klucz24[k])
-
-            mapa_pikseli[i, j] = (int(new_color[0:8], 2), int(new_color[8:16], 2), int(new_color[16:24], 2))
-
-    image.show()
-    image.save("C:\\Users\\alanm\\Desktop\\katalog\\imageEncode\\odkodowany.png")
+    image.save(sciezka)
